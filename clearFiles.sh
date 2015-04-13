@@ -9,6 +9,8 @@ mkdir -p $storePath
 pwd=`pwd`
 pwd=${pwd/\//from_}
 
+
+# 检查输入（不可以有两级路径）
 check(){
   num=`echo ${1} | awk -F/ '{print NF}'`
   if [ $num -gt 2 ]; then
@@ -32,6 +34,9 @@ for file in $@; do
   check ${file}
   res=$?
   if [ ${res} != 1 ]; then
+    echo '+-------------------------- +'
+    echo '| input error               |'
+    echo '+-------------------------- +'
     exit 0
   fi
 
@@ -41,13 +46,27 @@ for file in $@; do
 
   here=${storePath}${pwd}
 
-  cp ${file} ${here}
+  fName=${file/.\//}
+  fName=${fName/\//}
 
-  #if [ -d ${file} ]; then
-  #  mv -fr ${file} ${here}
-  #else
-  #  mv -f ${file} ${here}
-  #fi
+  # 检查同名文件是否已经存在
+  if [ -e ${here}/${fName} ]; then
+     cd ${here}
+
+     order=0
+     lss=(`ls | grep "^\${fName}[0-9]"`)
+     if [ ${lss} ]; then
+       num=${#lss[@]}
+       last=${lss[${num} - 1]}
+       last=${last/${fName}/}
+       order=$(( ${last} + 1 ))
+     fi
+
+     cd - >> /dev/null
+     mv -f ${file} ${here}/${fName}${order}
+  else
+     mv -f ${file} ${here}
+  fi
 
 done
 
