@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Title : clear bad files (cdf)
+# Title : upload files from remote dy sftp
 # Date  : Sun Apr 19 21:05:06 CST 2015
 # Author: andychen (bootoo@sina.cn)
 

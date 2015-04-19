@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Title : clear bad files (cdf)
+# Title : update your web item to your Linux server dy sftp
 # Date  : Sun Apr 19 21:04:56 CST 2015
 # Author: andychen (bootoo@sina.cn)
 
