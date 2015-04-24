@@ -20,13 +20,15 @@ byUbuntu(){
 
   # --- config new repository ---
   i=0
-  for name in `ls ${1}`;do
+  for name in `ls ${1} | grep -v "^super"`;do
     null_rep=null_${i}
+    #echo ${name}
+    #echo ${null_rep}
+
     conf_new_rep ${null_rep} ${name}
 
-    # --- check input users ---
-    check_users dev $null_rep
-    check_users tes $null_rep
+    check_users dev ${null_rep}
+    check_users tes ${null_rep}
 
     ((i++))
   done
@@ -39,7 +41,9 @@ conf_new_rep(){
   sudo mv $1 $2
   # --- edit svnserve.conf and authz file ---
   sed -i "s/$1/$2/" ./$2/conf/svnserve.conf
-  sed -i "s/$1/$2/g" ./conf/authz
+  sed -i "s/$1:/$2:/g" ./conf/authz
+  sed -i "s/grounp_$1_dev/$2_dev/g" ./conf/authz
+  sed -i "s/grounp_$1_tes/$2_tes/g" ./conf/authz
   echo $2
 }
 
@@ -167,7 +171,7 @@ read -p 'palse select option:' option
 
 case "$option" in
 	1)
-		byUbuntu;;
+		byUbuntu /alidata/www/;;
 	2)
 		byCentos;;
 	*)

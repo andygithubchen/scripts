@@ -7,8 +7,8 @@
 
 # === set up for Ubuntu ========================================================================
 byUbuntu(){
-	sudo apt-get update
-	sudo apt-get install subversion
+	#sudo apt-get update
+	#sudo apt-get install subversion
 	cd /srv
 	sudo mkdir svn
 	cd ./svn
@@ -35,7 +35,7 @@ boss  = 135246
 "	> /srv/svn/conf/passwd
 
   # --- create 10 null repository -------------------------------------
-  file_num=10
+  file_num=100
   rep_name=null_
   for((i=0; i<$file_num; i++)); do
     sudo svnadmin create ${rep_name}$i
