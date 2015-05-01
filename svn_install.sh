@@ -34,7 +34,7 @@ admin = 123456
 boss  = 135246
 "	> /srv/svn/conf/passwd
 
-  # --- create 10 null repository -------------------------------------
+  # --- create null repository -------------------------------------
   file_num=100
   rep_name=null_
   for((i=0; i<$file_num; i++)); do
