@@ -117,7 +117,7 @@ else
 fi
 make install
 cd ..
-cp ./${php-dir}/php.ini-production ${conf_install_dir}/server/php/etc/php.ini
+cp ./${php_dir}/php.ini-production ${conf_install_dir}/server/php/etc/php.ini
 #adjust php.ini
 sed -i 's#; extension_dir = \"\.\/\"#extension_dir = "'${conf_install_dir}'/server/php/lib/php/extensions/no-debug-non-zts-20121212/"#'  ${conf_install_dir}/server/php/etc/php.ini
 sed -i 's/post_max_size = 8M/post_max_size = 64M/g' ${conf_install_dir}/server/php/etc/php.ini
@@ -137,7 +137,7 @@ sed -i 's,;pid = run/php-fpm.pid,pid = run/php-fpm.pid,g'   ${conf_install_dir}/
 sed -i 's,;error_log = log/php-fpm.log,error_log = '${conf_install_dir}'/log/php/php-fpm.log,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
 sed -i 's,;slowlog = log/$pool.log.slow,slowlog = '${conf_install_dir}'/log/php/\$pool.log.slow,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
 #self start
-install -v -m755 ./${php-dir}/sapi/fpm/init.d.php-fpm  /etc/init.d/php-fpm
+install -v -m755 ./${php_dir}/sapi/fpm/init.d.php-fpm  /etc/init.d/php-fpm
 /etc/init.d/php-fpm start
 sleep 5
 

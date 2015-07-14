@@ -51,7 +51,7 @@ else
 fi
 make install
 cd ..
-cp ./${php-dir}/php.ini-production ${conf_install_dir}/server/php/etc/php.ini
+cp ./${php_dir}/php.ini-production ${conf_install_dir}/server/php/etc/php.ini
 #adjust php.ini
 sed -i 's#; extension_dir = \"\.\/\"#extension_dir = "${conf_install_dir}/server/php/lib/php/extensions/no-debug-non-zts-20121212/"#'  ${conf_install_dir}/server/php/etc/php.ini
 sed -i 's/post_max_size = 8M/post_max_size = 64M/g' ${conf_install_dir}/server/php/etc/php.ini
