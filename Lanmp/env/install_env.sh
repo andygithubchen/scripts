@@ -1,12 +1,11 @@
 #!/bin/sh
 
+cd ./download
 
-if [ ! -f libiconv-1.13.1.tar.gz ];then
-	wget http://oss.aliyuncs.com/aliyunecs/onekey/libiconv-1.13.1.tar.gz
-fi
-rm -rf libiconv-1.13.1
-tar zxvf libiconv-1.13.1.tar.gz
-cd libiconv-1.13.1
+rm -rf libiconv
+mkdir ./libiconv && tar -xzvf libiconv-*.tar.gz -C ./libiconv --strip-components 1
+
+cd libiconv
 ./configure --prefix=/usr/local
 if [ $CPU_NUM -gt 1 ];then
     make -j$CPU_NUM
@@ -16,12 +15,9 @@ fi
 make install
 cd ..
 
-if [ ! -f zlib-1.2.3.tar.gz ];then
-	wget http://oss.aliyuncs.com/aliyunecs/onekey/zlib-1.2.3.tar.gz
-fi
 rm -rf zlib-1.2.3
-tar zxvf zlib-1.2.3.tar.gz
-cd zlib-1.2.3
+mkdir ./zlib && tar -xzvf zlib-*.tar.gz -C ./zlib --strip-components 1
+cd zlib
 ./configure
 if [ $CPU_NUM -gt 1 ];then
     make CFLAGS=-fpic -j$CPU_NUM
@@ -31,12 +27,9 @@ fi
 make install
 cd ..
 
-if [ ! -f freetype-2.1.10.tar.gz ];then
-	wget http://oss.aliyuncs.com/aliyunecs/onekey/freetype-2.1.10.tar.gz
-fi
-rm -rf freetype-2.1.10
-tar zxvf freetype-2.1.10.tar.gz
-cd freetype-2.1.10
+rm -rf freetype
+mkdir ./freetype && tar -xzvf freetype-*.tar.gz -C ./freetype --strip-components 1
+cd freetype
 ./configure --prefix=/usr/local/freetype.2.1.10
 if [ $CPU_NUM -gt 1 ];then
     make -j$CPU_NUM
@@ -46,12 +39,9 @@ fi
 make install
 cd ..
 
-if [ ! -f libpng-1.2.50.tar.gz ];then
-    wget http://oss.aliyuncs.com/aliyunecs/onekey/libpng-1.2.50.tar.gz
-fi
-rm -rf libpng-1.2.50
-tar zxvf libpng-1.2.50.tar.gz
-cd libpng-1.2.50
+rm -rf libpng
+mkdir ./libpng && tar -xzvf libpng-*.tar.gz -C ./libpng --strip-components 1
+cd libpng
 ./configure --prefix=/usr/local/libpng.1.2.50
 if [ $CPU_NUM -gt 1 ];then
     make CFLAGS=-fpic -j$CPU_NUM
@@ -61,12 +51,9 @@ fi
 make install
 cd ..
 
-if [ ! -f libevent-1.4.14b.tar.gz ];then
-	wget http://oss.aliyuncs.com/aliyunecs/onekey/libevent-1.4.14b.tar.gz
-fi
-rm -rf libevent-1.4.14b
-tar zxvf libevent-1.4.14b.tar.gz
-cd libevent-1.4.14b
+rm -rf libevent
+mkdir ./libevent && tar -xzvf libevent-*.tar.gz -C ./libevent --strip-components 1
+cd libevent
 ./configure
 if [ $CPU_NUM -gt 1 ];then
     make -j$CPU_NUM
@@ -76,12 +63,9 @@ fi
 make install
 cd ..
 
-if [ ! -f libmcrypt-2.5.8.tar.gz ];then
-	wget http://oss.aliyuncs.com/aliyunecs/onekey/libmcrypt-2.5.8.tar.gz
-fi
-rm -rf libmcrypt-2.5.8
-tar zxvf libmcrypt-2.5.8.tar.gz
-cd libmcrypt-2.5.8
+rm -rf libmcrypt
+mkdir ./libmcrypt && tar -xzvf libmcrypt-*.tar.gz -C ./libmcrypt --strip-components 1
+cd libmcrypt
 ./configure --disable-posix-threads
 if [ $CPU_NUM -gt 1 ];then
     make -j$CPU_NUM
@@ -96,12 +80,9 @@ make
 make install
 cd ../..
 
-if [ ! -f pcre-8.12.tar.gz ];then
-	wget http://oss.aliyuncs.com/aliyunecs/onekey/pcre-8.12.tar.gz
-fi
-rm -rf pcre-8.12
-tar zxvf pcre-8.12.tar.gz
-cd pcre-8.12
+rm -rf pcre
+mkdir ./pcre && tar -xzvf pcre-*.tar.gz -C ./pcre --strip-components 1
+cd pcre
 ./configure
 if [ $CPU_NUM -gt 1 ];then
     make -j$CPU_NUM
@@ -111,12 +92,9 @@ fi
 make install
 cd ..
 
-if [ ! -f jpegsrc.v6b.tar.gz ];then
-	wget http://oss.aliyuncs.com/aliyunecs/onekey/jpegsrc.v6b.tar.gz
-fi
-rm -rf jpeg-6b
-tar zxvf jpegsrc.v6b.tar.gz
-cd jpeg-6b
+rm -rf jpeg
+mkdir ./jpeg && tar -xzvf jpeg*.tar.gz -C ./jpeg --strip-components 1
+cd jpeg
 if [ -e /usr/share/libtool/config.guess ];then
 cp -f /usr/share/libtool/config.guess .
 elif [ -e /usr/share/libtool/config/config.guess ];then
@@ -151,12 +129,10 @@ if [ ${conf_remake_openssl} == 1 ];then
   fi
   rm -fr /etc/ssl
 
-  if [ ! -f openssl-1.0.2d ];then
-    wget https://www.openssl.org/source/openssl-1.0.2d.tar.gz
-  fi
-  rm -rf openssl-1.0.2d
-  tar -zxvf openssl-1.0.2d.tar.gz
-  cd openssl-1.0.2d
+  rm -rf openssl
+  mkdir ./openssl && tar -xzvf openssl-*.tar.gz -C ./openssl --strip-components 1
+  tar -zxvf openssl
+  cd openssl
   ./config --prefix=/usr/local/openssl --openssldir=/usr/local/ssl
   if [ $CPU_NUM -gt 1 ];then
       make -j$CPU_NUM
@@ -172,7 +148,10 @@ if [ ${conf_remake_openssl} == 1 ];then
       make
   fi
   make install
+  cd ..
 fi
+
+cd ..
 
 #load /usr/local/lib .so -------------------------------------------------------
 touch /etc/ld.so.conf.d/usrlib.conf

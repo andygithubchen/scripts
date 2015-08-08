@@ -1,10 +1,7 @@
 #!/bin/bash
 
-
+cd ./download
 rm -rf ${php_dir}
-if [ ! -f ${php_dir}.tar.gz ];then
-  wget ${conf_wget_php}
-fi
 
 tar zxvf ${php_dir}.tar.gz
 cd ${php_dir}
@@ -50,8 +47,10 @@ else
     make ZEND_EXTRA_LIBS='-liconv'
 fi
 make install
-cd ..
-cp ./${php-dir}/php.ini-production ${conf_install_dir}/server/php/etc/php.ini
+cp ./php.ini-production ${conf_install_dir}/server/php/etc/php.ini
+
+cd ../../
+
 #adjust php.ini
 sed -i 's#; extension_dir = \"\.\/\"#extension_dir = "${conf_install_dir}/server/php/lib/php/extensions/no-debug-non-zts-20121212/"#'  ${conf_install_dir}/server/php/etc/php.ini
 sed -i 's/post_max_size = 8M/post_max_size = 64M/g' ${conf_install_dir}/server/php/etc/php.ini

@@ -1,41 +1,32 @@
 #!/bin/bash
 
+cd ./download
 
-rm -rf ${webServer_dir} apr apr-util
-if [ ! -f ${webServer_dir}.tar.gz ];then
-  wget -O ${webServer_dir}.tar.gz ${conf_wget_webServer}
-fi
-tar zxvf ${webServer_dir}.tar.gz
+  rm -rf ${webServer_dir} apr apr-util
+  tar zxvf ${webServer_dir}.tar.gz
 
-if [ ! -f apr.tar.gz ];then
-  wget -O apr.tar.gz ${conf_wget_apr}
-fi
-tar -zxvf apr.tar.gz
-cp -rf apr ${webServer_dir}/srclib/apr
+  mkdir ./apr-util && tar -xzvf aprUtil.tar.gz -C ./apr-util --strip-components 1
+  cp -rf apr-util ${webServer_dir}/srclib/apr-util
 
-if [ ! -f apr-util.tar.gz ];then
-  wget -O apr-util.tar.gz ${conf_wget_aprUtil}
-fi
-tar -zxvf apr-util.tar.gz
-cp -rf apr-util ${webServer_dir}/srclib/apr-util
+  mkdir ./apr && tar -xzvf apr.tar.gz -C ./apr --strip-components 1
+  cp -rf apr ${webServer_dir}/srclib/apr
 
-cd ${webServer_dir}
+cd -
+
+
+cd ./download/${webServer_dir}
 ./configure --prefix=${conf_install_dir}/server/httpd \
 --with-mpm=prefork \
 --enable-so \
 --enable-rewrite \
---enable-mods-shared=all \
+--enable-mods-shared =all \
 --enable-nonportable-atomics=yes \
 --disable-dav \
 --enable-deflate \
 --enable-cache \
 --enable-disk-cache \
 --enable-mem-cache \
---enable-file-cache \
---enable-ssl \
---with-included-apr \
---enable-modules=all  \
---enable-mods-shared=all
+--enable-file-cache
 
 if [ $CPU_NUM -gt 1 ];then
     make -j$CPU_NUM
@@ -45,7 +36,7 @@ fi
 make install
 cp support/apachectl /etc/init.d/httpd
 chmod u+x /etc/init.d/httpd
-cd ..
+cd ../../
 
 cp ${conf_install_dir}/server/httpd/conf/httpd.conf ${conf_install_dir}/server/httpd/conf/httpd.conf.bak
 

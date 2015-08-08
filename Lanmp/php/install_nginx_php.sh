@@ -1,76 +1,7 @@
 #!/bin/bash
 
-
-
-
-#--要求用root用户执行-----------------------------------------------------------
-if [ `whoami` != 'root' ];then
-  echo "+----------------------------+"
-  echo "|  plase use root user       |"
-  echo "+----------------------------+"
-  exit 0
-fi
-
-
-#--获取系统和硬件信息-----------------------------------------------------------
-if [ `uname -m` == "x86_64" ];then
-  machine=x86_64
-else
-  machine=i686
-fi
-
-CPU_NUM=$(cat /proc/cpuinfo | grep processor | wc -l)
-
-
-#--conf-------------------------------------------------------------------------
-  #--bases
-  export conf_install_dir=/xhdata    #your install path
-  export conf_web_group=tom          #your install path
-  export conf_web_user=tom           #your install path
-
-  #--web server
-  export conf_webServer=nginx        #web server type nginx/httpd
-  export conf_webServer_ver=1.4.4    #this web server version
-  export conf_wget_webServer=http://oss.aliyuncs.com/aliyunecs/onekey/nginx/nginx-1.4.4.tar.gz
-
-  #export conf_php_ver=5.5.7          #php version
-  export conf_php_ver=5.4.43          #php version
-  #export conf_wget_php=http://oss.aliyuncs.com/aliyunecs/onekey/php/php-5.5.7.tar.gz
-  export conf_wget_php=http://php.net/distributions/php-5.4.43.tar.gz
-
-  export conf_mysql_ver=5.6.15       #mysql version : 32/64
-  export conf_wget_mysql=http://oss.aliyuncs.com/aliyunecs/onekey/mysql/mysql-5.6.15-linux-glibc2.5-i686.tar.gz
-
-  #--other
-  export vsftpd_version=2.3.2
-  export sphinx_version=0.9.9
-  export install_ftp_version=0.0.0
-  export conf_phpmyadmin=0           #yet install phpmyadmin(1-install; 0-no)
-  export export phpmyadmin_version=4.1.8
-  export conf_install_log=${conf_install_dir}/website-info.log
-
-  if [ ${conf_webServer} != 'nginx' ];then
-    export   conf_wget_apr=http://oss.aliyuncs.com/aliyunecs/onekey/apache/apr-1.5.0.tar.gz
-    export   conf_wget_aprUtil=http://oss.aliyuncs.com/aliyunecs/onekey/apache/apr-util-1.5.3.tar.gz
-  fi
-
-  export machine
-  export CPU_NUM
-  export webServer_dir=${conf_webServer}-${conf_webServer_ver}
-  export php_dir=php-${conf_php_ver}
-  export mysql_dir=mysql-${conf_mysql_ver}
-  export vsftpd_dir=vsftpd-${vsftpd_version}
-  export sphinx_dir=sphinx-${sphinx_version}
-
-
-
-
-
-
+cd ./download
 rm -rf ${php_dir}
-if [ ! -f ${php_dir}.tar.gz ];then
-  wget ${conf_wget_php}
-fi
 
 tar zxvf ${php_dir}.tar.gz
 cd ${php_dir}
@@ -92,7 +23,7 @@ cd ${php_dir}
 --enable-bcmath \
 --enable-soap \
 --with-zlib \
---with-iconv \
+--with-iconv=/usr/local/lib \
 --with-gd \
 --with-xmlrpc \
 --enable-mbstring \
@@ -116,8 +47,10 @@ else
     make ZEND_EXTRA_LIBS='-liconv'
 fi
 make install
-cd ..
-cp ./${php-dir}/php.ini-production ${conf_install_dir}/server/php/etc/php.ini
+cp ./php.ini-production ${conf_install_dir}/server/php/etc/php.ini
+
+cd ../../
+
 #adjust php.ini
 sed -i 's#; extension_dir = \"\.\/\"#extension_dir = "'${conf_install_dir}'/server/php/lib/php/extensions/no-debug-non-zts-20121212/"#'  ${conf_install_dir}/server/php/etc/php.ini
 sed -i 's/post_max_size = 8M/post_max_size = 64M/g' ${conf_install_dir}/server/php/etc/php.ini
@@ -137,7 +70,7 @@ sed -i 's,;pid = run/php-fpm.pid,pid = run/php-fpm.pid,g'   ${conf_install_dir}/
 sed -i 's,;error_log = log/php-fpm.log,error_log = '${conf_install_dir}'/log/php/php-fpm.log,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
 sed -i 's,;slowlog = log/$pool.log.slow,slowlog = '${conf_install_dir}'/log/php/\$pool.log.slow,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
 #self start
-install -v -m755 ./${php-dir}/sapi/fpm/init.d.php-fpm  /etc/init.d/php-fpm
+install -v -m755 ./${php_dir}/sapi/fpm/init.d.php-fpm  /etc/init.d/php-fpm
 /etc/init.d/php-fpm start
 sleep 5
 
