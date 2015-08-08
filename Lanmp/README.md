@@ -1,5 +1,7 @@
+LNMP or LAMP auto install script
+
 ```bash
-chmod ¨CR 777 sh
+chmod -R 777 sh
 ./install.sh
 
 ```

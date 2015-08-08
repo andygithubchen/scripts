@@ -1,42 +1,6 @@
 #!/bin/bash
 
 cd ./download
-#--memcache ---------------------------------------------------------------------------------
-rm -rf memcache
-mkdir ./memcache && tar -xzvf memcache-*.tar.gz -C ./memcache --strip-components 1
-cd memcache
-${conf_install_dir}/server/php/bin/phpize
-./configure --enable-memcache --with-php-config=${conf_install_dir}/server/php/bin/php-config
-if [ $CPU_NUM -gt 1 ];then
-    make -j$CPU_NUM
-else
-    make
-fi
-make install
-cd ..
-echo "
-[Memcache]
-extension=memcache.so
-" >> ${conf_install_dir}/server/php/etc/php.ini
-
-
-#--redis (andychen add 2015-2-6) ------------------------------------------------------------
-rm -rf redis
-mkdir ./redis && tar -xzvf redis-*.tar.gz -C ./redis --strip-components 1
-cd redis
-${conf_install_dir}/server/php/bin/phpize
-./configure --with-php-config=${conf_install_dir}/server/php/bin/php-config
-if [ $CPU_NUM -gt 1 ];then
-    make -j$CPU_NUM
-else
-    make
-fi
-make install
-cd ..
-echo "
-[Redis]
-extension=redis.so
-" >> ${conf_install_dir}/server/php/etc/php.ini
 
 
 #--zend -------------------------------------------------------------------------------------
