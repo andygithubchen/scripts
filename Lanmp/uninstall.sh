@@ -1,5 +1,14 @@
 #!/bin/bash
 
+conf_install_dir=/xhdata
+
+if [ ${conf_install_dir} == '' ];then
+  echo ''
+  echo 'this "conf_install_dir" is empty !'
+  echo ''
+  exit 1
+fi
+
 if [ "$1" != "in" ];then
 	echo "Before cleaning the installation script environment !"
 	echo "Please backup your data !!"

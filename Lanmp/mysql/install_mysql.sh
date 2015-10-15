@@ -1,13 +1,11 @@
 #/bin/bash
 
 
-rm -rf ${mysql_dir}
-if [ ! -f ${mysql_dir}.tar.gz ];then
-  wget -O ./${mysql_dir}.tar.gz ${conf_wget_mysql}
-fi
-mkdir ./${mysql_dir} && tar -xzvf ${mysql_dir}.tar.gz -C ./${mysql_dir} --strip-components 1
-
+cd ./download
+rm -fr ./${mysql_dir}
+mkdir ./${mysql_dir} && tar -xzvf mysql-*.tar.gz -C ./${mysql_dir} --strip-components 1
 mv ${mysql_dir}/* ${conf_install_dir}/server/mysql
+cd -
 
 groupadd mysql
 useradd -g mysql -s /sbin/nologin mysql
