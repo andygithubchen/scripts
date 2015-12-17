@@ -32,8 +32,8 @@ cd ${php_dir}
 --enable-ftp \
 --with-mcrypt  \
 --with-freetype-dir=/usr/local/freetype.2.1.10 \
---with-jpeg-dir=/usr/local/jpeg.6 \
---with-png-dir=/usr/local/libpng.1.2.50 \
+--with-jpeg-dir=/usr/local/jpeg.9 \
+--with-png-dir=/usr/local/libpng.1.6.19 \
 --disable-ipv6 \
 --disable-debug \
 --with-openssl \
@@ -47,15 +47,11 @@ else
     make ZEND_EXTRA_LIBS='-liconv'
 fi
 make install
-<<<<<<< HEAD
-cd ..
-cp ./${php_dir}/php.ini-production ${conf_install_dir}/server/php/etc/php.ini
-=======
+
 cp ./php.ini-production ${conf_install_dir}/server/php/etc/php.ini
 
 cd ../../
 
->>>>>>> 7bebee4079b9ae745064a7c195077a14757fa1d1
 #adjust php.ini
 sed -i 's#; extension_dir = \"\.\/\"#extension_dir = "${conf_install_dir}/server/php/lib/php/extensions/no-debug-non-zts-20121212/"#'  ${conf_install_dir}/server/php/etc/php.ini
 sed -i 's/post_max_size = 8M/post_max_size = 64M/g' ${conf_install_dir}/server/php/etc/php.ini

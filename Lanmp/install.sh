@@ -12,20 +12,20 @@ fi
 
 #--conf-------------------------------------------------------------------------+
   #--bases
-  export conf_install_dir=/xhdata    #your install path
-  export conf_web_group=tom          #web group
-  export conf_web_user=tom           #web user
+  export conf_install_dir=/andydata    #your install path
+  export conf_web_group=www          #web group
+  export conf_web_user=www           #web user
 
   #--web servers
-  export conf_webServer=httpd        #web server type nginx/httpd
-  export conf_webServer_ver=2.2.15   #this web server version
-  export conf_wget_webServer=http://archive.apache.org/dist/httpd/httpd-2.2.15.tar.gz
+  export conf_webServer=nginx        #web server type nginx/httpd
+  export conf_webServer_ver=1.9.9   #this web server version
+  export conf_wget_webServer=http://nginx.org/download/nginx-1.9.9.tar.gz
 
-  export conf_php_ver=5.5.24         #php version
-  export conf_wget_php=http://cn2.php.net/distributions/php-5.5.24.tar.gz
+  export conf_php_ver=7.0.0         #php version
+  export conf_wget_php=http://cn2.php.net/distributions/php-7.0.0.tar.gz
 
-  export conf_mysql_ver=5.6.15       #mysql version : 32/64
-  export conf_wget_mysql=http://oss.aliyuncs.com/aliyunecs/onekey/mysql/mysql-5.6.15-linux-glibc2.5-i686.tar.gz
+  export conf_mysql_ver=5.7.10       #mysql version : 32/64
+  export conf_wget_mysql=http://mirrors.sohu.com/mysql/MySQL-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
 
   #--other
   export vsftpd_version=2.3.2
@@ -40,7 +40,7 @@ fi
     export conf_wget_aprUtil=http://oss.aliyuncs.com/aliyunecs/onekey/apache/apr-util-1.5.3.tar.gz
   fi
 
-  export conf_remake_openssl=0  #remove openssl and make again
+  export conf_remake_openssl=1  #remove openssl and make again
 
   if [ `uname -m` == "x86_64" ];then
     export machine=x86_64
@@ -111,7 +111,9 @@ echo ""
 echo ''
 echo "download all tar.gz files"
 echo ''
-./download/download.sh
+cd ./download
+./download.sh
+cd -
 
 #--install dependencies---------------------------------------------------------+
 if [ ${module} == 'n' ] && [ ${isDependencies} == 1 ];then
@@ -140,6 +142,8 @@ if [ ${module} == 'n' ] && [ ${isEnv} == 1 ];then
   echo "| env ok " >> tmp.log
 fi
 
+
+# install Mysql -------------------------------------------#
 if [ ${module} == 'n' ] || [ ${test_server} == 'mysql' ];then
   ./mysql/install_mysql.sh
   echo "| mysql ${conf_mysql_ver} ok " >> tmp.log
@@ -148,18 +152,30 @@ if [ ${module} == 'n' ] || [ ${test_server} == 'mysql' ];then
   fi
 fi
 
-if [ ${module} == 'n' ] || [ ${test_server} == ${conf_webServer} ] || [ ${test_server} == 'php' ];then
+
+# install HTTP --------------------------------------------#
+if [ ${module} == 'n' ] || [ ${test_server} == ${conf_webServer} ];then
   ./${conf_webServer}/install_${conf_webServer}.sh
   echo "| ${webServer_dir} ok " >> tmp.log
-  ./php/install_${conf_webServer}_php.sh
-  echo "| php ${conf_php_ver} ok " >> tmp.log
-  ./php/install_php_extension.sh
-  echo "| php extension ok " >> tmp.log
-  if [ ${test_server} == ${conf_webServer} ] || [ ${test_server} == 'php' ];then
+  if [ ${test_server} == ${conf_webServer} ];then
     exit 1
   fi
 fi
 
+
+# install PHP ---------------------------------------------#
+if [ ${module} == 'n' ] || [ ${test_server} == 'php' ];then
+  ./php/install_${conf_webServer}_php.sh
+  echo "| php ${conf_php_ver} ok " >> tmp.log
+  ./php/install_php_extension.sh
+  echo "| php extension ok " >> tmp.log
+  if [ ${test_server} == 'php' ];then
+    exit 1
+  fi
+fi
+
+
+# install Ftp ---------------------------------------------#
 if [ ${module} == 'n' ];then
   ./ftp/install_${vsftpd_dir}.sh
   install_ftp_version=$(vsftpd -v 0> vsftpd_version && cat vsftpd_version |awk -F: '{print $2}'|awk '{print $2}' && rm -f vsftpd_version)
@@ -219,10 +235,10 @@ fi
 #--Environment variable settings------------------------------------------------+
 \cp /etc/profile /etc/profile.bak
 if echo ${conf_webServer}|grep "nginx" > /dev/null;then
-  echo 'export PATH=$PATH:${conf_install_dir}/server/mysql/bin:${conf_install_dir}/server/nginx/sbin:${conf_install_dir}/server/php/sbin:${conf_install_dir}/server/php/bin' >> /etc/profile
+  echo "export PATH=$PATH:${conf_install_dir}/server/mysql/bin:${conf_install_dir}/server/nginx/sbin:${conf_install_dir}/server/php/sbin:${conf_install_dir}/server/php/bin" >> /etc/profile
   export PATH=$PATH:${conf_install_dir}/server/mysql/bin:${conf_install_dir}/server/nginx/sbin:${conf_install_dir}/server/php/sbin:${conf_install_dir}/server/php/bin
 else
-  echo 'export PATH=$PATH:${conf_install_dir}/server/mysql/bin:${conf_install_dir}/server/httpd/bin:${conf_install_dir}/server/php/sbin:${conf_install_dir}/server/php/bin' >> /etc/profile
+  echo "export PATH=$PATH:${conf_install_dir}/server/mysql/bin:${conf_install_dir}/server/httpd/bin:${conf_install_dir}/server/php/sbin:${conf_install_dir}/server/php/bin" >> /etc/profile
   export PATH=$PATH:${conf_install_dir}/server/mysql/bin:${conf_install_dir}/server/httpd/bin:${conf_install_dir}/server/php/sbin:${conf_install_dir}/server/php/bin
 fi
 

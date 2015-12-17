@@ -61,15 +61,18 @@ sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=1/g' ${conf_install_dir}/server/p
 sed -i 's/max_execution_time = 30/max_execution_time = 300/g' ${conf_install_dir}/server/php/etc/php.ini
 #adjust php-fpm
 cp ${conf_install_dir}/server/php/etc/php-fpm.conf.default ${conf_install_dir}/server/php/etc/php-fpm.conf
-sed -i "s,user = nobody,user=${conf_web_user},g"   ${conf_install_dir}/server/php/etc/php-fpm.conf
-sed -i "s,group = nobody,group=${conf_web_group},g"   ${conf_install_dir}/server/php/etc/php-fpm.conf
-sed -i 's,^pm.min_spare_servers = 1,pm.min_spare_servers = 5,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
-sed -i 's,^pm.max_spare_servers = 3,pm.max_spare_servers = 35,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
-sed -i 's,^pm.max_children = 5,pm.max_children = 100,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
-sed -i 's,^pm.start_servers = 2,pm.start_servers = 20,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
 sed -i 's,;pid = run/php-fpm.pid,pid = run/php-fpm.pid,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
 sed -i 's,;error_log = log/php-fpm.log,error_log = '${conf_install_dir}'/log/php/php-fpm.log,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
-sed -i 's,;slowlog = log/$pool.log.slow,slowlog = '${conf_install_dir}'/log/php/\$pool.log.slow,g'   ${conf_install_dir}/server/php/etc/php-fpm.conf
+#adjust www.conf
+cp ${conf_install_dir}/server/php/etc/php-fpm.d/www.conf.default ${conf_install_dir}/server/php/etc/php-fpm.d/www.conf
+sed -i 's,^pm.min_spare_servers = 1,pm.min_spare_servers = 5,g'   ${conf_install_dir}/server/php/etc/php-fpm.d/www.conf
+sed -i 's,^pm.max_spare_servers = 3,pm.max_spare_servers = 35,g'   ${conf_install_dir}/server/php/etc/php-fpm.d/www.conf
+sed -i 's,^pm.max_children = 5,pm.max_children = 100,g'   ${conf_install_dir}/server/php/etc/php-fpm.d/www.conf
+sed -i 's,^pm.start_servers = 2,pm.start_servers = 20,g'   ${conf_install_dir}/server/php/etc/php-fpm.d/www.conf
+sed -i 's,;slowlog = log/$pool.log.slow,slowlog = '${conf_install_dir}'/log/php/\$pool.log.slow,g'   ${conf_install_dir}/server/php/etc/php-fpm.d/www.conf
+sed -i "s,user = nobody,user=${conf_web_user},g"   ${conf_install_dir}/server/php/etc/php-fpm.d/www.conf
+sed -i "s,group = nobody,group=${conf_web_group},g"   ${conf_install_dir}/server/php/etc/php-fpm.d/www.conf
+
 #self start
 install -v -m755 ./sapi/fpm/init.d.php-fpm  /etc/init.d/php-fpm
 /etc/init.d/php-fpm start

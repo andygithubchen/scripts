@@ -3,13 +3,13 @@
 
 cd ./download
 rm -fr ./${mysql_dir}
-mkdir ./${mysql_dir} && tar -xzvf mysql-*.tar.gz -C ./${mysql_dir} --strip-components 1
+mkdir ./${mysql_dir} && tar -zxvf mysql-*.tar.gz -C ./${mysql_dir} --strip-components 1
 mv ${mysql_dir}/* ${conf_install_dir}/server/mysql
 cd -
 
 groupadd mysql
 useradd -g mysql -s /sbin/nologin mysql
-${conf_install_dir}/server/mysql/scripts/mysql_install_db --datadir=${conf_install_dir}/server/mysql/data/ --basedir=${conf_install_dir}/server/mysql --user=mysql
+${conf_install_dir}/server/mysql/bin/mysqld --initialize --datadir=${conf_install_dir}/server/mysql/data/ --basedir=${conf_install_dir}/server/mysql --user=mysql
 chown -R mysql:mysql ${conf_install_dir}/server/mysql/
 chown -R mysql:mysql ${conf_install_dir}/server/mysql/data/
 chown -R mysql:mysql ${conf_install_dir}/log/mysql
@@ -32,19 +32,20 @@ net_buffer_length = 8K
 read_buffer_size = 256K
 read_rnd_buffer_size = 512K
 myisam_sort_buffer_size = 8M
-
 log-bin=mysql-bin
 binlog_format=mixed
 server-id       = 1
-
 sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+
 
 [mysqldump]
 quick
 max_allowed_packet = 16M
 
+
 [mysql]
 no-auto-rehash
+
 
 [myisamchk]
 key_buffer_size = 20M
@@ -52,11 +53,15 @@ sort_buffer_size = 20M
 read_buffer = 2M
 write_buffer = 2M
 
+
 [mysqlhotcopy]
 interactive-timeout
+
+
+
+
 END
 
 chmod 755 /etc/init.d/mysqld
-/etc/init.d/mysqld start
-
+service mysqld start
 

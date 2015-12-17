@@ -42,7 +42,7 @@ cd ..
 rm -rf libpng
 mkdir ./libpng && tar -xzvf libpng-*.tar.gz -C ./libpng --strip-components 1
 cd libpng
-./configure --prefix=/usr/local/libpng.1.2.50
+./configure --prefix=/usr/local/libpng.1.6.19
 if [ $CPU_NUM -gt 1 ];then
     make CFLAGS=-fpic -j$CPU_NUM
 else
@@ -105,11 +105,11 @@ cp -f /usr/share/libtool/config.sub .
 elif [ -e /usr/share/libtool/config/config.sub ];then
 cp -f /usr/share/libtool/config/config.sub .
 fi
-./configure --prefix=/usr/local/jpeg.6 --enable-shared --enable-static
-mkdir -p /usr/local/jpeg.6/include
-mkdir /usr/local/jpeg.6/lib
-mkdir /usr/local/jpeg.6/bin
-mkdir -p /usr/local/jpeg.6/man/man1
+./configure --prefix=/usr/local/jpeg.9 --enable-shared --enable-static
+mkdir -p /usr/local/jpeg.9/include
+mkdir /usr/local/jpeg.9/lib
+mkdir /usr/local/jpeg.9/bin
+mkdir -p /usr/local/jpeg.9/man/man1
 if [ $CPU_NUM -gt 1 ];then
     make -j$CPU_NUM
 else
@@ -131,7 +131,7 @@ if [ ${conf_remake_openssl} == 1 ];then
 
   rm -rf openssl
   mkdir ./openssl && tar -xzvf openssl-*.tar.gz -C ./openssl --strip-components 1
-  tar -zxvf openssl
+
   cd openssl
   ./config --prefix=/usr/local/openssl --openssldir=/usr/local/ssl
   if [ $CPU_NUM -gt 1 ];then
@@ -139,7 +139,7 @@ if [ ${conf_remake_openssl} == 1 ];then
   else
       make
   fi
-  make install
+  make install_sw
   ./config shared --prefix=/usr/local/openssl --openssldir=/usr/local/ssl
   make clean
   if [ $CPU_NUM -gt 1 ];then
@@ -147,7 +147,7 @@ if [ ${conf_remake_openssl} == 1 ];then
   else
       make
   fi
-  make install
+  make install_sw
   cd ..
 fi
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-conf_install_dir=/xhdata
+conf_install_dir=/andydata
 
 if [ ${conf_install_dir} == '' ];then
   echo ''
@@ -55,10 +55,8 @@ killall php-fpm &> /dev/null
 
 echo "--------> Clean up the installation environment"
 rm -rf /usr/local/freetype.2.1.10
-rm -rf /usr/local/libpng.1.2.50
-rm -rf /usr/local/freetype.2.1.10
-rm -rf /usr/local/libpng.1.2.50
-rm -rf /usr/local/jpeg.6
+rm -rf /usr/local/libpng.1.6.19
+rm -rf /usr/local/jpeg.9
 
 echo ""
 echo "--------> Delete directory"

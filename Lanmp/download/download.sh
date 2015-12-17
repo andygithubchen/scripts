@@ -8,12 +8,13 @@ array=(
   http://oss.aliyuncs.com/aliyunecs/onekey/libiconv-1.13.1.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/zlib-1.2.3.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/freetype-2.1.10.tar.gz
-  http://oss.aliyuncs.com/aliyunecs/onekey/libpng-1.2.50.tar.gz
+  http://download.sourceforge.net/libpng/libpng-1.6.19.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/libevent-1.4.14b.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/libmcrypt-2.5.8.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/pcre-8.12.tar.gz
-  http://oss.aliyuncs.com/aliyunecs/onekey/jpegsrc.v6b.tar.gz
+  http://www.ijg.org/files/jpegsrc.v9a.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/phpMyAdmin-4.1.8-all-languages.zip
+  http://www.openssl.org/source/old/1.0.0/openssl-1.0.0c.tar.gz
   ${conf_wget_apr}
   ${conf_wget_aprUtil}
   ${conf_wget_webServer}
