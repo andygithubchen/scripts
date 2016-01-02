@@ -1,8 +1,8 @@
 #!/bin/bash
 
 sudo update
-sudo apt-get install -y htop unzip zip rar tree sl cmatrix libaa-bin
-sudo apt-get install -y mycli #不一定安装成功
+sudo apt-get install -y htop unzip zip rar tree sl cmatrix libaa-bin python-pip
+sudo pip install mycli
 
 
 # ASCII字符水族馆动画
