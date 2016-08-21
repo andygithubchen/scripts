@@ -50,7 +50,6 @@ make install
 
 cp ./php.ini-production ${conf_install_dir}/server/php/etc/php.ini
 
-cd ../../
 
 #adjust php.ini
 sed -i 's#; extension_dir = \"\.\/\"#extension_dir = "'${conf_install_dir}'/server/php/lib/php/extensions/no-debug-non-zts-20121212/"#'  ${conf_install_dir}/server/php/etc/php.ini
@@ -77,5 +76,8 @@ sed -i "s,group = nobody,group=${conf_web_group},g"   ${conf_install_dir}/server
 install -v -m755 ./sapi/fpm/init.d.php-fpm  /etc/init.d/php-fpm
 /etc/init.d/php-fpm start
 sleep 5
+
+cd ../../
+
 
 
