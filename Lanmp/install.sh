@@ -22,16 +22,17 @@ fi
   export conf_wget_webServer=http://nginx.org/download/nginx-1.9.9.tar.gz
 
   export conf_php_ver=7.0.0         #php version
+  export conf_php7=7         #php version
   export conf_wget_php=http://cn2.php.net/distributions/php-7.0.0.tar.gz
 
   export conf_mysql_ver=5.7.10       #mysql version : 32/64
-  export conf_wget_mysql=http://mirrors.sohu.com/mysql/MySQL-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
+  export conf_wget_mysql=https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
 
   #--other
   export vsftpd_version=2.3.2
   export conf_phpmyadmin=0           #yet install phpmyadmin(1-install; 0-no)
   export phpmyadmin_version=4.1.8
-  export isDependencies=0            #yet need dependencies install
+  export isDependencies=1            #yet need dependencies install
   export isEnv=1                     #yet install env's
   export conf_install_log=${conf_install_dir}/website-info.log
 
@@ -40,7 +41,7 @@ fi
     export conf_wget_aprUtil=http://oss.aliyuncs.com/aliyunecs/onekey/apache/apr-util-1.5.3.tar.gz
   fi
 
-  export conf_remake_openssl=1  #remove openssl and make again
+  export conf_remake_openssl=0  #remove openssl and make again
 
   if [ `uname -m` == "x86_64" ];then
     export machine=x86_64
@@ -165,7 +166,7 @@ fi
 
 # install PHP ---------------------------------------------#
 if [ ${module} == 'n' ] || [ ${test_server} == 'php' ];then
-  ./php/install_${conf_webServer}_php.sh
+  ./php/install_${conf_webServer}_php${conf_php7}.sh
   echo "| php ${conf_php_ver} ok " >> tmp.log
   ./php/install_php_extension.sh
   echo "| php extension ok " >> tmp.log
@@ -241,6 +242,7 @@ else
   echo "export PATH=$PATH:${conf_install_dir}/server/mysql/bin:${conf_install_dir}/server/httpd/bin:${conf_install_dir}/server/php/sbin:${conf_install_dir}/server/php/bin" >> /etc/profile
   export PATH=$PATH:${conf_install_dir}/server/mysql/bin:${conf_install_dir}/server/httpd/bin:${conf_install_dir}/server/php/sbin:${conf_install_dir}/server/php/bin
 fi
+source /etc/profile
 
 #--start servers----------------------------------------------------------------+
 if echo ${conf_webServer}|grep "nginx" > /dev/null;then
