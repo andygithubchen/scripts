@@ -11,6 +11,10 @@ fi
 
 
 #--conf-------------------------------------------------------------------------+
+  export isDependencies=1            #yet need dependencies install
+  export isEnv=1                     #yet install env's
+  export conf_remake_openssl=0  #remove openssl and make again
+
   #--bases
   export conf_install_dir=/andydata    #your install path
   export conf_web_group=www          #web group
@@ -32,8 +36,6 @@ fi
   export vsftpd_version=2.3.2
   export conf_phpmyadmin=0           #yet install phpmyadmin(1-install; 0-no)
   export phpmyadmin_version=4.1.8
-  export isDependencies=1            #yet need dependencies install
-  export isEnv=1                     #yet install env's
   export conf_install_log=${conf_install_dir}/website-info.log
 
   if [ ${conf_webServer} != 'nginx' ];then
@@ -41,7 +43,6 @@ fi
     export conf_wget_aprUtil=http://oss.aliyuncs.com/aliyunecs/onekey/apache/apr-util-1.5.3.tar.gz
   fi
 
-  export conf_remake_openssl=0  #remove openssl and make again
 
   if [ `uname -m` == "x86_64" ];then
     export machine=x86_64
@@ -95,6 +96,12 @@ if [ ${module} == 'n' ];then
 fi
 
 
+#--install dependencies---------------------------------------------------------+
+if [ ${module} == 'n' ] && [ ${isDependencies} == 1 ];then
+  ./dependencies/install.sh
+fi
+
+
 #--Clean up the environment-----------------------------------------------------+
 if [ ${module} == 'n' ];then
   echo ""
@@ -115,11 +122,6 @@ echo ''
 cd ./download
 ./download.sh
 cd -
-
-#--install dependencies---------------------------------------------------------+
-if [ ${module} == 'n' ] && [ ${isDependencies} == 1 ];then
-  ./dependencies/install.sh
-fi
 
 #--install software-------------------------------------------------------------+
 rm -f tmp.log
