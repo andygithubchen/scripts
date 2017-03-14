@@ -25,14 +25,13 @@ elif [ "$ifcentos" != "" ];then
   yum -y install gcc gcc-c++ gcc-g77 make libtool autoconf patch unzip automake libxml2 libxml2-devel ncurses ncurses-devel libtool-ltdl-devel libtool-ltdl libmcrypt libmcrypt-devel libpng libpng-devel libjpeg-devel openssl openssl-devel curl curl-devel libxml2 libxml2-devel ncurses ncurses-devel libtool-ltdl-devel libtool-ltdl autoconf automake libaio*
   iptables -F
 elif [ "$ifubuntu" != "" ];then
-  apt-get -y update --fix-missing
+  apt-get -y update
   \mv /etc/apache2 /etc/apache2.bak &> /dev/null
   \mv /etc/nginx /etc/nginx.bak &> /dev/null
   \mv /etc/php5 /etc/php5.bak &> /dev/null
   \mv /etc/mysql /etc/mysql.bak &> /dev/null
   apt-get -y autoremove apache2 nginx php5 mysql-server &> /dev/null
   apt-get -y install make cmake gcc g++ unzip build-essential libncurses5-dev libfreetype6-dev libxml2 libxml2-dev libssl-dev libcurl4-openssl-dev libjpeg62-dev libpng12-dev libfreetype6-dev libsasl2-dev libpcre3-dev autoconf libperl-dev libtool libaio*
-  apt-get install --reinstall libgnutls-openssl27 libcurl4-gnutls-dev
   iptables -F
 elif [ "$ifdebian" != "" ];then
   apt-get -y update
