@@ -99,6 +99,12 @@ fi
 #--install dependencies---------------------------------------------------------+
 if [ ${module} == 'n' ] && [ ${isDependencies} == 1 ];then
   ./dependencies/install.sh
+	echo ""
+	echo "+----------------------------------------------+"
+	echo "+ dependencies install done                    +"
+	echo "+----------------------------------------------+"
+	echo ""
+	exit 1
 fi
 
 
