@@ -254,14 +254,16 @@ source /etc/profile
 
 #--start servers----------------------------------------------------------------+
 if echo ${conf_webServer}|grep "nginx" > /dev/null;then
-/etc/init.d/php-fpm restart > /dev/null
-/etc/init.d/nginx restart > /dev/null
+  /etc/init.d/php-fpm restart > /dev/null
+  /etc/init.d/nginx restart > /dev/null
 else
-/etc/init.d/httpd restart > /dev/null
-/etc/init.d/httpd start &> /dev/null
+  /etc/init.d/httpd restart > /dev/null
+  /etc/init.d/httpd start &> /dev/null
 fi
-/etc/init.d/vsftpd restart
+service mysqld start
+service nginx start
 
+/etc/init.d/vsftpd restart
 
 #--show log---------------------------------------------------------------------+
 \cp tmp.log $conf_install_log

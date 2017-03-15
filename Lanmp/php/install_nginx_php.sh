@@ -72,13 +72,7 @@ sed -i 's,;slowlog = log/$pool.log.slow,slowlog = '${conf_install_dir}'/log/php/
 #self start
 install -v -m755 ./sapi/fpm/init.d.php-fpm  /etc/init.d/php-fpm
 /etc/init.d/php-fpm start
-sleep 5
+sleep 1
 
 cd ../../
-
-
-
-cd ../../
-
-
 
