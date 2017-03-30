@@ -20,6 +20,7 @@ cat > /etc/my.cnf <<END
 [client]
 port            = 3306
 socket          = /tmp/mysql.sock
+
 [mysqld]
 port            = 3306
 socket          = /tmp/mysql.sock
@@ -63,5 +64,5 @@ interactive-timeout
 END
 
 chmod 755 /etc/init.d/mysqld
-service mysqld start
+/etc/init.d/mysqld start
 

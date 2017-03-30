@@ -75,9 +75,7 @@ sed -i "s,group = nobody,group=${conf_web_group},g"   ${conf_install_dir}/server
 #self start
 install -v -m755 ./sapi/fpm/init.d.php-fpm  /etc/init.d/php-fpm
 /etc/init.d/php-fpm start
-sleep 5
+sleep 1
 
 cd ../../
-
-
 

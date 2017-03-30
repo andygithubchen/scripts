@@ -31,7 +31,7 @@ elif [ "$ifubuntu" != "" ];then
   \mv /etc/php5 /etc/php5.bak &> /dev/null
   \mv /etc/mysql /etc/mysql.bak &> /dev/null
   apt-get -y autoremove apache2 nginx php5 mysql-server &> /dev/null
-  apt-get -y install make cmake gcc g++ unzip build-essential libncurses5-dev libfreetype6-dev libxml2 libxml2-dev libssl-dev libcurl4-openssl-dev libjpeg62-dev libpng12-dev libfreetype6-dev libsasl2-dev libpcre3-dev autoconf libperl-dev libtool libaio*
+  apt-get -y install make cmake gcc g++ unzip build-essential libncurses5-dev libfreetype6-dev libxml2 libxml2-dev libssl-dev libcurl4-openssl-dev pkg-config libjpeg62-dev libpng12-dev libfreetype6-dev libsasl2-dev libpcre3-dev autoconf libperl-dev libtool libaio*
   iptables -F
 elif [ "$ifdebian" != "" ];then
   apt-get -y update

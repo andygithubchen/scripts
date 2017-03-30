@@ -133,14 +133,14 @@ if [ ${conf_remake_openssl} == 1 ];then
   mkdir ./openssl && tar -xzvf openssl-*.tar.gz -C ./openssl --strip-components 1
 
   cd openssl
-  ./config --prefix=/usr/local/openssl --openssldir=/usr/local/ssl
+  ./config --prefix=/usr/local --openssldir=/usr/local/ssl
   if [ $CPU_NUM -gt 1 ];then
       make -j$CPU_NUM
   else
       make
   fi
   make install_sw
-  ./config shared --prefix=/usr/local/openssl --openssldir=/usr/local/ssl
+  ./config shared --prefix=/usr/local --openssldir=/usr/local/ssl
   make clean
   if [ $CPU_NUM -gt 1 ];then
       make -j$CPU_NUM
