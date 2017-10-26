@@ -136,11 +136,11 @@ echo tmp.log
 if [ ${module} == 'n' ];then
   ./env/install_set_sysctl.sh
   ./env/install_set_ulimit.sh
+  if [ -e /dev/xvdb ];then
+    ./env/install_disk.sh
+  fi
 fi
 
-if [ -e /dev/xvdb ];then
-  ./env/install_disk.sh
-fi
 
 echo "+--------------------------------------------+" >> tmp.log
 ./env/install_dir.sh
