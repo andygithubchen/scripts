@@ -30,7 +30,7 @@ fi
   export conf_wget_php=http://cn2.php.net/distributions/php-7.0.0.tar.gz
 
   export conf_mysql_ver=5.7.10       #mysql version : 32/64
-  export conf_wget_mysql=https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
+  export conf_wget_mysql=http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar
 
   #--other
   export vsftpd_version=2.3.2
@@ -104,7 +104,6 @@ if [ ${module} == 'n' ] && [ ${isDependencies} == 1 ];then
 	echo "+ dependencies install done                    +"
 	echo "+----------------------------------------------+"
 	echo ""
-	exit 1
 fi
 
 
