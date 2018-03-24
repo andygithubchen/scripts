@@ -35,7 +35,7 @@ cd ${php_dir}
 --with-freetype-dir=/usr/local/freetype.2.1.10 \
 --with-jpeg-dir=/usr/local/jpeg.9 \
 --with-png-dir \
-#--with-png-dir=/usr/local/libpng.1.6.19 \
+--with-png-dir=/usr/local/libpng.1.6.19 \
 --disable-ipv6 \
 --disable-debug \
 --with-openssl \

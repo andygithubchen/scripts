@@ -10,9 +10,18 @@ sudo apt-get install -y nmon saidar glances dstat        #显示系统性能信�
 sudo apt-get install -y ncdu          #查看文件夹大小
 sudo apt-get install -y inxi          #查看系统信息
 sudo apt-get install -y libaa-bin     #其他
+sudo apt-get install -y ntpdate       #同步时间
 
 sudo apt-get install -y python-pip    #有提示的MySQL命令行客户端
 sudo pip install mycli
+
+#同步时间
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+ntpdate -d cn.pool.ntp.org
+
+exit 1
+
+
 
 
 #-- ASCII字符水族馆动画
