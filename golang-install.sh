@@ -8,13 +8,14 @@ mkdir /Golang
 
 
 cat >> /etc/profile <<END
+
 export GOROOT=/usr/local/go
-export GOBIN=$GOROOT/bin
-export GOPKG=$GOROOT/pkg/tool/linux_amd64
+export GOBIN=\$GOROOT/bin
+export GOPKG=\$GOROOT/pkg/tool/linux_amd64
 export GOARCH=amd64
 export GOOS=linux
 export GOPATH=/Golang
-export PATH=$PATH:$GOBIN:$GOPKG:$GOPATH/bin
+export PATH=\$PATH:\$GOBIN:\$GOPKG:\$GOPATH/bin
 END
 
 source /etc/profile
