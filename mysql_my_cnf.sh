@@ -16,3 +16,6 @@
 #
 #
 #3：关闭防火墙！
+
+#ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement
+#mysql> set password = password('123456');
