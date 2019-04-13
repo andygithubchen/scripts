@@ -1,66 +1,76 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-BASE_DIR=`pwd`
-SCRIPT_DIR=$(readlink -e $(dirname $0))
-
-if [ $# -gt 0 ]
-then
-  VERSION=$1
-else
-  VERSION=2.0.6
-fi
-ZABBIX_SRC=zabbix-$VERSION.tar.gz
-ZABBIX_DIR=${ZABBIX_SRC%.tar.gz}
-INSTALL_DIR=$HOME/zabbix
-DATA_DIR=$HOME/data/zabbix
-WEB_DIR=$HOME/data/www/zabbix
-
-if [ ! -f $ZABBIX_SRC ]
-then
-  wget http://downloads.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/$VERSION/zabbix-$VERSION.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fzabbix%2Ffiles%2FZABBIX%2520Latest%2520Stable%2F$VERSION%2Fzabbix-$VERSION.tar.gz%2Fdownload%3Fuse_mirror%3Dnchc&ts=1352271990&use_mirror=nchc
+if [ ! -f ./zabbix-3.4.3.tar.gz ]; then
+  rm -fr ./zabbix-3.4.3
+  wget https://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/3.4.3/zabbix-3.4.3.tar.gz/download
+  mv ./download ./zabbix-3.4.3.tar.gz
+  tar -zxvf ./zabbix-3.4.3.tar.gz
 fi
 
-sudo yum -y install net-snmp net-snmp-devel
 
-if [ -d $ZABBIX_DIR ]
-then
-  rm -rf $ZABBIX_DIR
-fi
-tar zxf $ZABBIX_SRC
-cd $ZABBIX_DIR
-#./configure --prefix=$INSTALL_DIR --enable-server --enable-agent --enable-ipv6 --with-net-snmp --with-libcurl --with-mysql=/home/worker/mysql/bin/mysql_config
-./configure --prefix=$INSTALL_DIR --enable-agent --enable-ipv6 --with-libcurl
-make
-make install
+cd ./zabbix-3.4.3
 
-cd $SCRIPT_DIR
-cp conf/zabbix/etc/* $INSTALL_DIR/etc/
-sed -i "s%\$HOME%$HOME%g" $INSTALL_DIR/etc/zabbix_agentd.conf
-sed -i "s%\$HOME%$HOME%g" $INSTALL_DIR/etc/zabbix_server.conf
-sed -i "s/Server=zabbix-server/Server=zabbixserver.camera360.com/" $INSTALL_DIR/etc/zabbix_server.conf
-sed -i "s/ServerActiv=zabbix-server/ServerActiv=zabbixserver.camera360.com/" $INSTALL_DIR/etc/zabbix_server.conf
-mkdir -p $INSTALL_DIR/share/zabbix/externalscripts/
-cp conf/zabbix/externalscripts/* $INSTALL_DIR/share/zabbix/externalscripts/
-mkdir -p $INSTALL_DIR/share/zabbix/alertscripts/
-cp conf/zabbix/alertscripts/* $INSTALL_DIR/share/zabbix/alertscripts/
-:<<BLOCK
-$HOME/mysql/bin/mysql -u root -e "create database zabbix character set utf8;"
-$HOME/mysql/bin/mysql -u root -e "grant all on zabbix.* to 'zabbix'@'localhost';"
-$HOME/mysql/bin/mysql -u root -e "grant all on zabbix.* to 'zabbix'@'127.0.0.1';"
-$HOME/mysql/bin/mysql -u root -e "grant all on zabbix.* to 'zabbix'@'10.%';"
-$HOME/mysql/bin/mysql -u zabbix zabbix <database/mysql/schema.sql
-$HOME/mysql/bin/mysql -u zabbix zabbix <database/mysql/images.sql
-$HOME/mysql/bin/mysql -u zabbix zabbix <database/mysql/data.sql
-BLOCK
-mkdir -p $DATA_DIR
-#mkdir -p $WEB_DIR
-#cp -a frontends/php/* $WEB_DIR
+mysql -uroot -p123456 << EOF
+  create database zabbix default charset utf8;
+  grant all on zabbix.* to zabbix@'localhost' identified by '123456';
+  grant all on zabbix.* to zabbix@'127.0.0.1' identified by '123456';
+EOF
 
-mkdir -p $HOME/bin
-cd $HOME/bin
-ln -sf ../zabbix/bin/zabbix_get zabbix_get
-ln -sf ../zabbix/bin/zabbix_sender zabbix_sender
+mysql -uzabbix -p123456 zabbix < ./database/mysql/schema.sql
+mysql -uzabbix -p123456 zabbix < ./database/mysql/images.sql
+mysql -uzabbix -p123456 zabbix < ./database/mysql/data.sql
 
-cd $INSTALL_DIR
-#sbin/zabbix_server
-sbin/zabbix_agentd
+
+groupadd zabbix
+useradd -g zabbix -m zabbix
+
+apt-get install -y libsnmp-dev snmp
+
+./configure \
+--prefix=/usr/local/zabbix \
+--enable-server \
+--with-mysql=/andydata/server/mysql/bin/mysql_config \
+--with-net-snmp \
+--with-libcurl \
+--enable-ipv6 \
+--with-libxml2 \
+--enable-agent
+
+make && make install
+
+
+sed -i "s/sbin/zabbix\/sbin/" ./misc/init.d/debian/zabbix-server
+sed -i "s/sbin/zabbix\/sbin/" ./misc/init.d/debian/zabbix-agent
+
+cp ./misc/init.d/debian/zabbix-* /etc/init.d/
+
+
+# 配置zabbix server端
+# vim /usr/local/zabbix/etc/zabbix_server.conf
+
+# 配置zabbix agent端
+# vim /usr/local/zabbix/etc/zabbix_agentd.conf
+
+update-rc.d zabbix-server defaults
+update-rc.d zabbix-agent defaults
+
+service zabbix_server start
+service zabbix_agentd start
+
+
+
+
+# 部署zabbix监控站点======================================
+
+#cp -r ./frontends/php /andydata/wwwroot/zabbix
+#chown www:www -R /andydata/wwwroot/zabbix/
+
+#修改php.ini配置来配合zabbix
+#按这里修改：https://www.zabbix.com/documentation/3.4/zh/manual/installation/install
+
+
+#登陆界面输入账号admin,密码zabbix进入
+
+#支持中文 http://www.phperz.com/article/15/0531/131543.html
+
+
