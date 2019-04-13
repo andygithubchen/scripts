@@ -22,17 +22,17 @@
 
 
 #ubuntu 16
-#sudo add-apt-repository ppa:longsleep/golang-backports
-#sudo apt-get update
-#sudo apt-get install golang-go
+sudo add-apt-repository ppa:longsleep/golang-backports
+sudo apt-get update
+sudo apt-get install golang-go
 
 #centOS
-yum install epel -y
-yum install go -y
+#yum install epel -y
+#yum install go -y
 
 
 
-cat > /etc/profile <<END
+cat >> /etc/profile <<END
 
 export GOROOT=/usr/lib/go
 export GOBIN=/usr/bin

@@ -1,5 +1,14 @@
 #!/bin/bash
 
+#先下载brotli模块
+mkdir -p ~/tmp/
+cd ~/tmp/
+git clone https://github.com/google/ngx_brotli
+cd ./ngx_brotli
+git submodule update --init
+cd -
+
+#正常安装
 cd ./download
 rm -rf ${webServer_dir}
 
@@ -13,7 +22,8 @@ cd ${webServer_dir}
 --without-http-cache \
 --with-http_gzip_static_module \
 --with-http_stub_status_module \
---with-debug
+--with-debug \
+--add-module=~/tmp/ngx_brotli
 
 if [ $CPU_NUM -gt 1 ];then
     make -j$CPU_NUM
