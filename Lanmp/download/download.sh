@@ -24,10 +24,7 @@ array=(
 
 
 for link in ${array[*]};do
-  name=${link##*/}
-  if [ ! -f ${name} ];then
-    wget ${link}
-  fi
+  wget -c ${link}
 done
 
 mv apr-util*.tar.gz aprUtil.tar.gz
