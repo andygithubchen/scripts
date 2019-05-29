@@ -36,7 +36,7 @@ cat >> /etc/profile <<END
 
 export GOROOT=/usr/lib/go
 export GOBIN=/usr/bin
-export PATH=$PATH:$GOBIN:$GOROOT
+export PATH=\$PATH:\$GOBIN:\$GOROOT
 END
 
 source /etc/profile
