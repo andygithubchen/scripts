@@ -34,9 +34,13 @@ sudo apt-get install golang-go
 
 cat >> /etc/profile <<END
 
-export GOROOT=/usr/lib/go
-export GOBIN=/usr/bin
-export PATH=\$PATH:\$GOBIN:\$GOROOT
+export GOROOT=/usr/local/go
+export GOBIN=$GOROOT/bin
+export GOPKG=$GOROOT/pkg/tool/linux_amd64
+export GOARCH=amd64
+export GOOS=linux
+export GOPATH=/golang
+export PATH=$PATH:$GOBIN:$GOPKG:$GOPATH/bin
 END
 
 source /etc/profile
