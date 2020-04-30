@@ -161,7 +161,7 @@ fi
 
 # install Mysql -------------------------------------------#
 if [ ${module} == 'n' ] || [ ${test_server} == 'mysql' ];then
-  if [ ${conf_mysql_ver} == '5.5.35'];then
+  if [ ${conf_mysql_ver} == '5.5.35' ];then
     ./mysql/install_mysql55.sh
   else
     ./mysql/install_mysql.sh
