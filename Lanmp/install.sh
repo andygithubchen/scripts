@@ -29,8 +29,11 @@ fi
   export conf_php7=7         #php version
   export conf_wget_php=http://cn2.php.net/distributions/php-7.0.0.tar.gz
 
-  export conf_mysql_ver=5.7.10       #mysql version : 32/64
-  export conf_wget_mysql=https://cdn.mysql.com//archives/mysql-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
+  #export conf_mysql_ver=5.7.10       #mysql version : 32/64
+  #export conf_wget_mysql=https://cdn.mysql.com//archives/mysql-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
+
+  export conf_mysql_ver=5.5.35
+  export conf_wget_mysql=http://oss.aliyuncs.com/aliyunecs/onekey/mysql/mysql-5.5.35-linux2.6-x86_64.tar.gz
 
   #--other
   export vsftpd_version=2.3.2
@@ -153,7 +156,11 @@ fi
 
 # install Mysql -------------------------------------------#
 if [ ${module} == 'n' ] || [ ${test_server} == 'mysql' ];then
-  ./mysql/install_mysql.sh
+  if [ ${conf_mysql_ver} == '5.5.35'];then
+    ./mysql/install_mysql55.sh
+  else
+    ./mysql/install_mysql.sh
+  fi
   echo "| mysql ${conf_mysql_ver} ok " >> tmp.log
   if [ ${test_server} == 'mysql' ];then
     exit 1
