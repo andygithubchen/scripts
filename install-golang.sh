@@ -1,12 +1,11 @@
 #!/bin/bash
 
-
 _source(){
   wget -c https://dl.google.com/go/go1.13.linux-amd64.tar.gz
 
   tar -C /usr/local/ -zxvf go1.13.linux-amd64.tar.gz
 
-  mkdir /Golang
+  mkdir /golang
 
   cat >> /etc/profile <<END
 
@@ -15,7 +14,7 @@ _source(){
   export GOPKG=\$GOROOT/pkg/tool/linux_amd64
   export GOARCH=amd64
   export GOOS=linux
-  export GOPATH=/Golang
+  export GOPATH=/golang
   export PATH=\$PATH:\$GOBIN:\$GOPKG:\$GOPATH/bin
 END
 }
@@ -29,8 +28,6 @@ _apt(){
   #centOS
   #yum install epel -y
   #yum install go -y
-
-
 
   cat >> /etc/profile <<END
 
