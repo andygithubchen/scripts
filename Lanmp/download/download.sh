@@ -14,7 +14,7 @@ array=(
   http://oss.aliyuncs.com/aliyunecs/onekey/pcre-8.12.tar.gz
   http://www.ijg.org/files/jpegsrc.v9a.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/phpMyAdmin-4.1.8-all-languages.zip
-  https://ftp.openssl.org/source/old/1.0.0/openssl-1.0.0c.tar.gz
+  http://repository.timesys.com/buildsources/o/openssl/openssl-1.0.0c/openssl-1.0.0c.tar.gz
   ${conf_wget_apr}
   ${conf_wget_aprUtil}
   ${conf_wget_webServer}
