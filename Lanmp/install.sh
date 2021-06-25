@@ -1,5 +1,7 @@
 #/bin/bash
 
+export DIR=$(pwd)
+
 
 #--要求用root用户执行-----------------------------------------------------------+
 if [ `whoami` != 'root' ];then
@@ -22,15 +24,21 @@ fi
 
   #--web servers
   export conf_webServer=nginx        #web server type nginx/httpd
-  export conf_webServer_ver=1.9.9   #this web server version
-  export conf_wget_webServer=http://nginx.org/download/nginx-1.9.9.tar.gz
+  export conf_webServer_ver=1.15.12   #this web server version
+  export conf_wget_webServer=https://nginx.org/download/nginx-1.15.12.tar.gz
 
-  export conf_php_ver=7.0.0         #php version
+  export conf_php_ver=7.2.8         #php version
   export conf_php7=7         #php version
-  export conf_wget_php=http://cn2.php.net/distributions/php-7.0.0.tar.gz
+  export conf_wget_php=https://www.php.net/distributions/php-7.2.8.tar.gz
 
-  export conf_mysql_ver=5.7.10       #mysql version : 32/64
-  export conf_wget_mysql=https://cdn.mysql.com//archives/mysql-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
+  export conf_mysql_ver=8.0.21
+  export conf_wget_mysql=https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-boost-8.0.21.tar.gz
+
+  #export conf_mysql_ver=5.7.10       #mysql version : 32/64
+  #export conf_wget_mysql=https://cdn.mysql.com//archives/mysql-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
+
+  #export conf_mysql_ver=5.5.35
+  #export conf_wget_mysql=http://oss.aliyuncs.com/aliyunecs/onekey/mysql/mysql-5.5.35-linux2.6-x86_64.tar.gz
 
   #--other
   export vsftpd_version=2.3.2
@@ -96,6 +104,17 @@ if [ ${module} == 'n' ];then
 fi
 
 
+#--download all tar.gz files----------------------------------------------------+
+if [ ${module} == 'n' ];then
+  echo ''
+  echo "download all tar.gz files"
+  echo ''
+  cd ./download
+  ./download.sh
+  cd -
+fi
+
+
 #--install dependencies---------------------------------------------------------+
 if [ ${module} == 'n' ] && [ ${isDependencies} == 1 ];then
   ./dependencies/install.sh
@@ -119,14 +138,6 @@ echo ""
 echo " will be installed, wait ..."
 echo ""
 
-
-#--download all tar.gz files----------------------------------------------------+
-echo ''
-echo "download all tar.gz files"
-echo ''
-cd ./download
-./download.sh
-cd -
 
 #--install software-------------------------------------------------------------+
 rm -f tmp.log
@@ -153,7 +164,13 @@ fi
 
 # install Mysql -------------------------------------------#
 if [ ${module} == 'n' ] || [ ${test_server} == 'mysql' ];then
-  ./mysql/install_mysql.sh
+  if [ ${conf_mysql_ver} == '8.0.21' ];then
+    ./mysql/install_mysql80.sh
+  elif [ ${conf_mysql_ver} == '5.5.35' ];then
+    ./mysql/install_mysql55.sh
+  else
+    ./mysql/install_mysql.sh
+  fi
   echo "| mysql ${conf_mysql_ver} ok " >> tmp.log
   if [ ${test_server} == 'mysql' ];then
     exit 1

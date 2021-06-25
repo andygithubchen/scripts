@@ -14,7 +14,7 @@ array=(
   http://oss.aliyuncs.com/aliyunecs/onekey/pcre-8.12.tar.gz
   http://www.ijg.org/files/jpegsrc.v9a.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/phpMyAdmin-4.1.8-all-languages.zip
-  http://down1.chinaunix.net/distfiles/openssl-1.0.0c.tar.gz
+  http://repository.timesys.com/buildsources/o/openssl/openssl-1.0.0c/openssl-1.0.0c.tar.gz
   ${conf_wget_apr}
   ${conf_wget_aprUtil}
   ${conf_wget_webServer}
@@ -24,10 +24,7 @@ array=(
 
 
 for link in ${array[*]};do
-  name=${link##*/}
-  if [ ! -f ${name} ];then
-    wget ${link}
-  fi
+  wget -c ${link}
 done
 
 mv apr-util*.tar.gz aprUtil.tar.gz
