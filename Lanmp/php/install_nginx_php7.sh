@@ -34,6 +34,7 @@ cd ${php_dir}
 --with-mcrypt  \
 --with-freetype-dir=/usr/local/freetype.2.1.10 \
 --with-jpeg-dir=/usr/local/jpeg.9 \
+--with-iconv=/usr/local/libiconv \
 --with-png-dir \
 --with-png-dir=/usr/local/libpng.1.6.19 \
 --disable-ipv6 \
