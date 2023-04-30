@@ -5,7 +5,8 @@ array=(
   #http://oss.aliyuncs.com/aliyunecs/onekey/php_extend/ZendGuardLoader-php-5.3-linux-glibc23-i386.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/php_extend/ZendGuardLoader-70429-PHP-5.4-linux-glibc23-x86_64.tar.gz
   #http://oss.aliyuncs.com/aliyunecs/onekey/php_extend/ZendGuardLoader-70429-PHP-5.4-linux-glibc23-i386.tar.gz
-  http://oss.aliyuncs.com/aliyunecs/onekey/libiconv-1.13.1.tar.gz
+  #http://oss.aliyuncs.com/aliyunecs/onekey/libiconv-1.13.1.tar.gz
+  http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/zlib-1.2.3.tar.gz
   http://oss.aliyuncs.com/aliyunecs/onekey/freetype-2.1.10.tar.gz
   http://download.sourceforge.net/libpng/libpng-1.6.19.tar.gz
