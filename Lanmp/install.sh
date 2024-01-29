@@ -38,7 +38,7 @@ fi
   #export conf_wget_mysql=https://cdn.mysql.com//archives/mysql-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
 
   #export conf_mysql_ver=5.5.35
-  #export conf_wget_mysql=http://oss.aliyuncs.com/aliyunecs/onekey/mysql/mysql-5.5.35-linux2.6-x86_64.tar.gz
+  #export conf_wget_mysql=http://developers-origin.cloudsoftcorp.com/brooklyn/repository/MySqlNode/5.5.35/mysql-5.5.35-linux2.6-x86_64.tar.gz
 
   #--other
   export vsftpd_version=2.3.2
