@@ -11,6 +11,7 @@ USER=root
 PASS=''
 HOST=127.0.0.1
 DATA=/data/center_mysql_backup
+BIN=/andydata/server/mysql-5.7.10/bin
 MAX=3 #备份文件保留个数，超过就会清除最早备份的
 
 FILE=$(date +'%Y-%m-%d')
@@ -18,6 +19,10 @@ TIME=$(date +'%H.%M')
 NAME=${FILE}_${TIME}
 SAVEPATH=${DATA}/${NAME}
 
+#check
+if [ ! -d "$BIN" ]; then
+  echo "$BIN is not exsit"
+fi
 
 #clean
 len=$(ls ${DATA} | wc -l)
@@ -37,12 +42,12 @@ fi
 mkdir -p ${SAVEPATH}
 
 #backup
-datas=$( mysql -u${USER} -p${PASS} -h${HOST} -e"show databases;" )
+datas=$( ${BIN}/mysql -u${USER} -p${PASS} -h${HOST} -e"show databases;" )
 datas=($datas)
 unset datas[0]
 
 for dataname in ${datas[@]};do
-  mysqldump --single-transaction --no-tablespaces -u${USER} -p${PASS} -h${HOST} ${dataname} > ${SAVEPATH}/${dataname}.sql
+  ${BIN}/mysqldump --single-transaction --no-tablespaces -u${USER} -p${PASS} -h${HOST} ${dataname} > ${SAVEPATH}/${dataname}.sql
 done
 
 cd ${DATA}
@@ -52,7 +57,4 @@ if [ "$size" -gt 400 ]; then
 fi
 rm -fr ./${NAME}
 cd -
-
-
-
 
